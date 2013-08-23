@@ -121,12 +121,12 @@ game.PlayerEntity = me.ObjectEntity.extend({
 
     if (this.renderable != undefined) {
       if (this.droidCharge / this.maxDriodMoves < this.lowPowerPercentage) {
-        this.renderable.image.src = '/data/img/sprites/001_low_power.png';
+        this.renderable.image.src = 'data/img/sprites/001_low_power.png';
       } else {
         if (this.droidCharging && this.droidCharge < this.maxDriodMoves) {
-          this.renderable.image.src = '/data/img/sprites/001_charging.png';          
+          this.renderable.image.src = 'data/img/sprites/001_charging.png';          
         } else {
-          this.renderable.image.src = '/data/img/sprites/001.png';          
+          this.renderable.image.src = 'data/img/sprites/001.png';          
         }
       }
     }
