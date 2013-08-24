@@ -5,12 +5,14 @@ game.PlayScreen = me.ScreenObject.extend({
     var current_game = this;
 
     if (typeof(Firebase) == "function") {
+      // Create the event to add new players when they come online
       var db = new Firebase("https://asymilate.firebaseio.com/");
       db.on('child_added', function (snapshot) {
         var session = snapshot.val();
         current_game.addPlayer(session);
       });
 
+      // Load the current remote players
       var db = new Firebase("https://asymilate.firebaseio.com/");
       db.on('value', function (snapshot) {
         var player_sessions = snapshot.val();
@@ -42,37 +44,39 @@ game.PlayScreen = me.ScreenObject.extend({
   },
 
   addPlayer: function (player_session) {
-    if (player_session.id == undefined || player_session.x == undefined || player_session.y == undefined) {
+    // Check we have all the session details back from Firebase
+    if (player_session.id == undefined 
+      || player_session.x == undefined 
+      || player_session.y == undefined) {
+      // Only partial session details have been returned
+      console.log('Only partial player session');
+      return;
+    }                                         
+
+    
+    var local_player = me.game.getEntityByName('mainPlayer')[0];
+    if (local_player == null) {
+      console.log('Local player has not been added yet');
       return;
     }
-
-    // Fix for Firebase bug
-    player_session.id = fixSessionId(player_session.id);
-    player_session.x = fixXCoordinate(player_session.x);
-    player_session.y = fixYCoordinate(player_session.y);
-    //---------------------
-
-    var local_player = me.game.getEntityByName('mainPlayer')[0];
+    
     var player = me.game.getEntityByName(player_session.id)[0];
-    if (player || local_player == null) {
+    if (player) {
+      console.log('Player has already been added');
       return;
     }
 
     if (player_session.id != null) {
+      // Is this the local player?
       if (local_player.session.id == player_session.id) {
+        // Yes, don't bother adding them
         return;
       }
 
-
+      // Setup the event for changes in location of remote players
       var player_ref = new Firebase("https://asymilate.firebaseio.com/" + player_session.id);
       player_ref.on('value', function (snapshot) {
         var session = snapshot.val();
-
-        // Fix for Firebase bug
-        session.id = fixSessionId(session.id);
-        session.x = fixXCoordinate(session.x);
-        session.y = fixYCoordinate(session.y);
-        //---------------------
 
         remote_player = me.game.getEntityByName(session.id);
         if (remote_player.length > 0) {
@@ -81,7 +85,8 @@ game.PlayScreen = me.ScreenObject.extend({
         }
       });
 
-
+      
+      // Add the existing remote player to the screen
       var remote_player = me.entityPool.newInstanceOf('remotePlayer', player_session.x, player_session.y, {
         spritewidth: 24,
         spriteheight: 24,
@@ -90,7 +95,6 @@ game.PlayScreen = me.ScreenObject.extend({
       });
 
       remote_player.name = player_session.id;
-
 
       me.game.add(remote_player, 4);
       me.game.sort();

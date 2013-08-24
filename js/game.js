@@ -1,34 +1,4 @@
 /* Game namespace */
-  // TODO: Contact Firebase about this odd bug
-  // Fix for bug
-  function fixSessionId(id) {
-    var value = id; 
-    if (typeof(value) == "object") {
-      value = value.id;
-    }
-    
-    return(value);
-  }
-  
-  function fixXCoordinate(x) {
-    var value = x; 
-    if (typeof(value) == "object") {
-      value = value.x;
-    }
-    
-    return(value);
-  }
-  
-  function fixYCoordinate(y) {
-    var value = y; 
-    if (typeof(value) == "object") {
-      value = value.y;
-    }
-    
-    return(value);
-  }
-  // --------------------------  
-
 
 var game = {
   // Run on page load.
