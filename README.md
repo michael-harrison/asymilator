@@ -15,7 +15,7 @@ are falling into place.
 ### Friday the 9th
 
 With time for coding a priority I begun searching for some out of the box graphics and found that 
-around 10 years ago a group of programmers had re-imagined the Paradroid game: the [Paradroid Project](http://paradroid.ovine.net/index.php).  
+around 10 years ago a group of programmers had re-imagined the Paradroid game: the [SDL Paradriod Port](http://paradroid.sourceforge.net/).  
 They had made it open source so I took the opportunity to use the graphics which slotted into place nicely.  Latter that 
 day I begun learning with the [tutorial](http://melonjs.github.io/tutorial/) provided by MelonJS and downloaded 
 some sample projects.  I was on my way for a day of learning the MelonJS framework.  Time to head to CampJS with 
